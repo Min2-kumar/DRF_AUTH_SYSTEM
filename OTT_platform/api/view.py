@@ -8,6 +8,8 @@ from OTT_platform.api.serializers import MovieSerializer
 
 
 
+# Topic covered:- APIView with serializers.Serializer | validations:- field level, object level, validators
+
 class MovieListAPIView(APIView):
     def get(self, request):
         movie = Movie.objects.all()
