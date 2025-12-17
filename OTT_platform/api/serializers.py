@@ -1,7 +1,21 @@
 from rest_framework import serializers
-from OTT_platform.models import Movie
+from OTT_platform.models import Movie, WatchList, StreamPlatform
 
 
+class WatchListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WatchList
+        fields = '__all__'
+
+class StreamPlatformSerializer(serializers.ModelSerializer):
+    watchlist = WatchListSerializer(many=True, read_only=True)
+    class Meta:
+        model = StreamPlatform
+        fields = '__all__'
+
+
+# ------------------------------------------------------------------------------------------------------
 
 # ModelSerializer automatically handle create & update logic 
 # Topics:- ModelSerializer | serializerMethod(custome method) | validation

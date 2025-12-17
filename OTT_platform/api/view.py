@@ -3,10 +3,109 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
-from OTT_platform.models import Movie
-from OTT_platform.api.serializers import MovieSerializer
+from OTT_platform.models import Movie, WatchList, StreamPlatform
+from OTT_platform.api.serializers import MovieSerializer, WatchListSerializer, StreamPlatformSerializer
 
 
+
+class StreamPlatformAPIView(APIView):
+    def get(self, request):
+        streamplatform = StreamPlatform.objects.all()
+        serializer = StreamPlatformSerializer(streamplatform, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = StreamPlatformSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StreamPlatformDetailAPIView(APIView):
+    def get(self, request, pk):
+        try:
+            streamplatform = StreamPlatform.objects.get(pk=pk)
+        except StreamPlatform.DoesNotExist:
+            return Response({'error':'Platform not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = StreamPlatformSerializer(streamplatform)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        try:
+           streamplatform =  StreamPlatform.objects.get(pk=pk)
+        except StreamPlatform.DoesNotExist:
+            return Response({'error':'Platform not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = StreamPlatformSerializer(streamplatform, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        try:
+            streamplatform = StreamPlatform.objects.get(pk=pk)
+        except StreamPlatform.DoesNotExist:
+            return Response({'error':'Platform not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        streamplatform.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class WatchListAPIView(APIView):
+    """ WatchList get and post using APIView"""
+    def get(self, request):
+        watchlist = WatchList.objects.all()
+        serializer = WatchListSerializer(watchlist, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = WatchListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class WatchListDetailAPIView(APIView):
+    """ WatchList get, put and delete using APIView"""
+    def get(self, request, pk):
+        try:
+            watchlist = WatchList.objects.get(pk=pk)
+        except WatchList.DoesNotExist:
+            return Response({'error':'Movie Not Found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = WatchListSerializer(watchlist)
+        return Response(serializer.data)
+
+
+    def put(self, request, pk):
+        try:
+            watchlist = WatchList.objects.get(pk=pk)
+        except WatchList.DoesNotExist:
+            return Response({'error':'Movie Not Found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = WatchListSerializer(watchlist, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request, pk):
+        try:
+            watchlist = WatchList.objects.get(pk=pk)
+        except WatchList.DoesNotExist:
+            return Response({'error':'Movie Not Found'}, status=status.HTTP_404_NOT_FOUND)
+
+        watchlist.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# ------------------------------------------------------------------------------------------------------------------
 
 # Topic covered:- APIView with serializers.Serializer | validations:- field level, object level, validators
 
