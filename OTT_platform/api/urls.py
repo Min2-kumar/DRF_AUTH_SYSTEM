@@ -12,10 +12,10 @@ urlpatterns = [
     path('<int:pk>/', MovieDetailsAPIView.as_view(), name='movie-details'),
 
     # movies
-    path('watchlist/', WatchListAPIView.as_view(), name='watch-list'),
-    path('watchlist/<int:pk>/', WatchListDetailAPIView.as_view(), name='watch-details'),
+    path('watchlist/', WatchListAPIView.as_view(), name='watchlist-list'),
+    path('watchlist/<int:pk>/', WatchListDetailAPIView.as_view(), name='watchlist-detail'),
 
     # movie platform
-    path('platform/', StreamPlatformAPIView.as_view(), name='platform-list'),
-    path('platform/<int:pk>/', StreamPlatformDetailAPIView.as_view(), name='platform-details'),
+    path('platform/', StreamPlatformAPIView.as_view(), name='streamplatform-list'),
+    path('platform/<int:pk>/', StreamPlatformDetailAPIView.as_view(), name='streamplatform-detail'),
 ]

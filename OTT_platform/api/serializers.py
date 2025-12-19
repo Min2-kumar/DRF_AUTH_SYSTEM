@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from OTT_platform.models import Movie, WatchList, StreamPlatform
 
+# =================================================================================
+# Topic coved : Nested serializer
 
 class WatchListSerializer(serializers.ModelSerializer):
 
@@ -9,7 +11,11 @@ class WatchListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
-    watchlist = WatchListSerializer(many=True, read_only=True)
+    # watchlist = WatchListSerializer(many=True, read_only=True)
+    # watchlist = serializers.StringRelatedField(many=True)
+
+    # in the HyperlinkedIdentityField required view_name = '<model_name>-detail' | context={'request': request}
+    watchlist = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='watchlist-detail')
     class Meta:
         model = StreamPlatform
         fields = '__all__'

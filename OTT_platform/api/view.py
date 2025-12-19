@@ -11,7 +11,7 @@ from OTT_platform.api.serializers import MovieSerializer, WatchListSerializer, S
 class StreamPlatformAPIView(APIView):
     def get(self, request):
         streamplatform = StreamPlatform.objects.all()
-        serializer = StreamPlatformSerializer(streamplatform, many=True)
+        serializer = StreamPlatformSerializer(streamplatform, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request):
