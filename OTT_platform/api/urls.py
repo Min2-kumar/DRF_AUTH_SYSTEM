@@ -1,6 +1,6 @@
 from django.urls import path
 # from OTT_platform.api.view import movie_list, movie_details
-from OTT_platform.api.view import MovieListAPIView, MovieDetailsAPIView, WatchListAPIView, WatchListDetailAPIView, StreamPlatformAPIView, StreamPlatformDetailAPIView
+from OTT_platform.api.view import MovieListAPIView, MovieDetailsAPIView, WatchListAPIView, WatchListDetailAPIView, StreamPlatformAPIView, StreamPlatformDetailAPIView, ReviewList, ReviewDetail
 
 urlpatterns = [
     # FBV
@@ -18,4 +18,9 @@ urlpatterns = [
     # movie platform
     path('platform/', StreamPlatformAPIView.as_view(), name='streamplatform-list'),
     path('platform/<int:pk>/', StreamPlatformDetailAPIView.as_view(), name='streamplatform-detail'),
+
+    # review
+    path('review/', ReviewList.as_view(), name='review-list'),
+    path('review/<int:pk>/', ReviewDetail.as_view(), name='review-detail'),
+
 ]

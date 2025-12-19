@@ -1,12 +1,40 @@
 from rest_framework.response import Response
 # from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from rest_framework import mixins
+from rest_framework import generics
+
 from rest_framework import status
 
-from OTT_platform.models import Movie, WatchList, StreamPlatform
-from OTT_platform.api.serializers import MovieSerializer, WatchListSerializer, StreamPlatformSerializer
+from OTT_platform.models import Movie, WatchList, StreamPlatform, Review
+from OTT_platform.api.serializers import MovieSerializer, WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 
 
+
+# =======================================================================================================
+# generic view : mixins --> this is used for general purposes
+class ReviewDetail( mixins.RetrieveModelMixin, generics.GenericAPIView,):
+    """ retrieve(get one data) review """
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
+class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    """ list | create reviews """
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+# ===========================================================================================================
 
 class StreamPlatformAPIView(APIView):
     def get(self, request):
@@ -105,7 +133,7 @@ class WatchListDetailAPIView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# ------------------------------------------------------------------------------------------------------------------
+# =============================================================================================================
 
 # Topic covered:- APIView with serializers.Serializer | validations:- field level, object level, validators
 
