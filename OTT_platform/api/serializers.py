@@ -1,21 +1,29 @@
 from rest_framework import serializers
-from OTT_platform.models import Movie, WatchList, StreamPlatform
+from OTT_platform.models import Movie, WatchList, StreamPlatform, Review
 
 # =================================================================================
-# Topic coved : Nested serializer
+# Topic coved : Nested serializer | Serializer Relation
+
+class ReviewSerializer(serializers.ModelSerializer):
+    """ movie review """
+    class Meta:
+        model = Review
+        fields = "__all__"
+
 
 class WatchListSerializer(serializers.ModelSerializer):
+    reviews = ReviewSerializer(many=True, read_only=True)
 
     class Meta:
         model = WatchList
         fields = '__all__'
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
-    # watchlist = WatchListSerializer(many=True, read_only=True)
+    watchlist = WatchListSerializer(many=True, read_only=True)
     # watchlist = serializers.StringRelatedField(many=True)
 
     # in the HyperlinkedIdentityField required view_name = '<model_name>-detail' | context={'request': request}
-    watchlist = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='watchlist-detail')
+    # watchlist = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='watchlist-detail')
     class Meta:
         model = StreamPlatform
         fields = '__all__'
