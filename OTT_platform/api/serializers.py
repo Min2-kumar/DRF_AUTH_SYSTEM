@@ -7,8 +7,9 @@ from OTT_platform.models import Movie, WatchList, StreamPlatform, Review
 class ReviewSerializer(serializers.ModelSerializer):
     """ movie review """
     # source is related to str in models, it shows self __str__(self) field
-    movie_name = serializers.CharField(source='watchlist', read_only=True)
-    platform = serializers.CharField(source='watchlist.platform', read_only=True)
+    movie_name = serializers.CharField(source='watchlist.title', read_only=True)
+    platform = serializers.CharField(source='watchlist.platform.name', read_only=True)
+    review_user = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Review

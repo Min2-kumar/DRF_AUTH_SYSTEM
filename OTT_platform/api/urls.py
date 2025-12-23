@@ -18,12 +18,12 @@ urlpatterns = [
     path('watchlist/<int:pk>/', WatchListDetailAPIView.as_view(), name='watchlist-detail'),
 
     # movie platform
-    path('platform/', StreamPlatformAPIView.as_view(), name='streamplatform-list'),
-    path('platform/<int:pk>/', StreamPlatformDetailAPIView.as_view(), name='streamplatform-detail'),
+    path('stream/', StreamPlatformAPIView.as_view(), name='streamplatform-list'),
+    path('stream/<int:pk>/', StreamPlatformDetailAPIView.as_view(), name='streamplatform-detail'),
 
     # review
-    path('watchlist/<int:pk>/review-create/', ReviewCreate.as_view(), name='review-create'),
-    path('watchlist/<int:pk>/review/', ReviewList.as_view(), name='review-list'),
-    path('review/<int:pk>/', ReviewDetail.as_view(), name='review-detail'),
+    path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-create'),
+    path('<int:pk>/review/', ReviewList.as_view(), name='review-list'),
+    path('stream/review/<int:pk>/', ReviewDetail.as_view(), name='review-detail'),
 
 ]
