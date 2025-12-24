@@ -25,6 +25,7 @@ class WatchListSerializer(serializers.ModelSerializer):
         model = WatchList
         fields = '__all__'
 
+
 class StreamPlatformSerializer(serializers.ModelSerializer):
     watchlist = WatchListSerializer(many=True, read_only=True)
     # watchlist = serializers.StringRelatedField(many=True)

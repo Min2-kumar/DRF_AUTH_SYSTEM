@@ -15,6 +15,8 @@ class WatchList(models.Model):
     platform = models.ForeignKey(StreamPlatform, on_delete=models.CASCADE, related_name='watchlist')
     title = models.CharField(max_length=50)
     storyline = models.CharField(max_length=200)
+    avg_rating = models.FloatField(default=0)
+    number_rating = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

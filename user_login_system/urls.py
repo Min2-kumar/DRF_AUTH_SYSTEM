@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('account/', include('user_app.api.urls')),
     path('watch/', include('OTT_platform.api.urls')),
-    path('api-auth/', include('rest_framework.urls')),
+
+    # instead of this we can use postman
+    # path('api-auth/', include('rest_framework.urls')),
 ]
