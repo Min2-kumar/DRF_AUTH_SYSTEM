@@ -1,8 +1,8 @@
 from django.urls import path
 # from OTT_platform.api.view import movie_list, movie_details
-from OTT_platform.api.view import (MovieListAPIView, MovieDetailsAPIView, WatchListAPIView, 
+from OTT_platform.api.view import (MovieListAPIView, MovieDetailsAPIView, UserReview, WatchListAPIView, 
                                     WatchListDetailAPIView, StreamPlatformAPIView,
-                                    StreamPlatformDetailAPIView, ReviewList, ReviewDetail, ReviewCreate)
+                                    StreamPlatformDetailAPIView, ReviewList, ReviewDetail, ReviewCreate, UserReview)
 
 urlpatterns = [
     # FBV
@@ -25,5 +25,9 @@ urlpatterns = [
     path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-create'),
     path('<int:pk>/review/', ReviewList.as_view(), name='review-list'),
     path('review/<int:pk>/', ReviewDetail.as_view(), name='review-detail'),
+
+    # filter by URL
+    # path('reviews/<str:username>/', UserReview.as_view(), name='user-review-list'),
+    path('reviews/', UserReview.as_view(), name='user-review-list'),
 
 ]

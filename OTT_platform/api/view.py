@@ -7,6 +7,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
+from OTT_platform.api.permissions import IsReviewUserOrReadOnly
 from OTT_platform.models import Movie, WatchList, StreamPlatform, Review
 from OTT_platform.api.serializers import MovieSerializer, WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 
@@ -43,6 +44,23 @@ class ReviewCreate(generics.CreateAPIView):
 
 
 # get  --> list
+
+# filter aginst URL
+class UserReview(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+
+    # filter aginst query params(query parameters)
+    def get_queryset(self):
+        username = self.request.query_params.get('username')
+        return Review.objects.filter(review_user__username=username)
+
+
+    # filter aginst URL
+    # def get_queryset(self):
+    #     username = self.kwargs['username']
+    #     return Review.objects.filter(review_user__username=username)
+
+
 class ReviewList(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -56,6 +74,7 @@ class ReviewList(generics.ListAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsReviewUserOrReadOnly]
 
 # =======================================================================================================
 # generic view : mixins --> this is used for general purposes
