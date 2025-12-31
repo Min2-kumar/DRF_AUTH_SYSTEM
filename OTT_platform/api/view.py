@@ -1,11 +1,14 @@
+from warnings import filters
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 # from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
+from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 
 from OTT_platform.api.permissions import IsReviewUserOrReadOnly
 from OTT_platform.models import Movie, WatchList, StreamPlatform, Review
@@ -47,12 +50,16 @@ class ReviewCreate(generics.CreateAPIView):
 
 # filter aginst URL
 class UserReview(generics.ListAPIView):
+    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    filter_backends = [filters.OrderingFilter]
+    search_fields = ['rating', 'is_active']
+
 
     # filter aginst query params(query parameters)
-    def get_queryset(self):
-        username = self.request.query_params.get('username')
-        return Review.objects.filter(review_user__username=username)
+    # def get_queryset(self):
+    #     username = self.request.query_params.get('username')
+    #     return Review.objects.filter(review_user__username=username)
 
 
     # filter aginst URL
@@ -65,7 +72,7 @@ class ReviewList(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
-    
+
     # def get_queryset(self):
     #     return Review.objects.select_related('watchlist')
 
